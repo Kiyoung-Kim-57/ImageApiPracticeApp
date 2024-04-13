@@ -21,7 +21,7 @@ class ImageService {
         var urlComponents = apiURL
         urlComponents.path = "/photos/random"
         urlComponents.queryItems = [
-            URLQueryItem(name: "count", value: "2"),
+            URLQueryItem(name: "count", value: "5"),
             URLQueryItem(name: "client_id", value: apiKey)
         ]
         guard let url = urlComponents.url else { return }

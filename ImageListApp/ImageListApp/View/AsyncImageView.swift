@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AsyncImageView: View {
-    @StateObject var imageViewModel: ImageViewModel = ImageViewModel()
+    @StateObject var imageViewModel: ImageViewModel
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
@@ -23,17 +23,16 @@ struct AsyncImageView: View {
                             
                         } placeholder: {
                             Text("Loading")
+                                .frame(width: 250, height: 250)
                         }
                     }
                 }
             }
-        }.onAppear {
-            //                imageViewModel.getImageList()
         }
         
     }
 }
 
 #Preview {
-    AsyncImageView()
+    AsyncImageView(imageViewModel: ImageViewModel())
 }
