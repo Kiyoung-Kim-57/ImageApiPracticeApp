@@ -13,7 +13,7 @@ struct AsyncImageView: View {
         ScrollView {
             VStack(spacing: 30) {
                 ForEach(imageViewModel.imageList) { img  in
-                    if let imgURL = URL(string: img.urls.thumb) {
+                    if let imgURL = URL(string: img.urls.raw) {
                         AsyncImage(url: imgURL ) { img in
                             img
                                 .resizable()

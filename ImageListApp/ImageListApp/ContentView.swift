@@ -15,7 +15,6 @@ struct ContentView: View {
     @State private var path: [ViewType] = []
     var body: some View {
         NavigationStack(path: $path) {
-            
             VStack(spacing: 20){
                 Button {
                     imageLoader.imageList = [UIImage?](repeating: nil, count: 10)
@@ -57,6 +56,8 @@ struct ContentView: View {
                     ResizedImageView(imageViewModel: imageViewModel, imageLoader: imageLoader)
                 case ViewType.third:
                     ResizeInBgView(imageViewModel: imageViewModel, imageLoader: imageLoader)
+                case ViewType.fourth:
+                    ThumbnailView(imageViewModel: imageViewModel, imageLoader: imageLoader)
                 }
             })
         }
@@ -71,6 +72,7 @@ private enum ViewType:String, CaseIterable{
     case first = "Saved Image"
     case second = "Resized Image"
     case third = "Resizing In\n Background"
+    case fourth = "Thumbnail Resizing"
 }
 
 #Preview {

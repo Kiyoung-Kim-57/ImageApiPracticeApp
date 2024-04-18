@@ -55,6 +55,9 @@ class ImageLoader: ObservableObject {
         let resized = image.resize(ratio: 0.5)
         return resized
     }
+    
+   
+    
 }
 
 enum CallError: Error {
