@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+//AsyncImage를 활용해서 간단하고 가독성 좋게 만든 스크롤 뷰
 struct AsyncImageView: View {
     @StateObject var imageViewModel: ImageViewModel
     var body: some View {

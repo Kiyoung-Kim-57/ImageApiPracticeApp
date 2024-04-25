@@ -21,20 +21,18 @@ extension UIImage {
         return renderedImage
     }
     
-    func resize2(size: CGSize) -> UIImage? {
-        let options: [CFString: Any] = [
-                    kCGImageSourceShouldCache: false,
-                    kCGImageSourceCreateThumbnailFromImageAlways: true,
-                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-                    kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height),
-                    kCGImageSourceCreateThumbnailWithTransform: true
-                ]
-        
-        guard let data = jpegData(compressionQuality: 1.0),
-              let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
-              let cgImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else { return nil }
-        
-        let resizedImage = UIImage(cgImage: cgImage)
-        return resizedImage
-    }
+//    func resize2(data: Data ,size: CGSize) -> UIImage? {
+//        let options: [CFString: Any] = [
+//                    kCGImageSourceShouldCache: false,
+//                    kCGImageSourceCreateThumbnailFromImageAlways: true,
+//                    kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
+//                    kCGImageSourceThumbnailMaxPixelSize: max(size.width, size.height),
+//                    kCGImageSourceCreateThumbnailWithTransform: true
+//                ]
+//        guard let imageSource = CGImageSourceCreateWithData(data as CFData, nil),
+//              let cgImage = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, options as CFDictionary) else { return nil }
+//        
+//        let resizedImage = UIImage(cgImage: cgImage)
+//        return resizedImage
+//    }
 }
