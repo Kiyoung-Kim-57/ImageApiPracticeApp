@@ -57,4 +57,18 @@ class ImageCacheManager {
 
         return nil
     }
+    
+    func deleteAllImageCache() {
+        let context = persistanceContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "ImageData")
+        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+        
+        do {
+            try context.execute(deleteRequest)
+            print("cache deleted")
+        } catch {
+            print("error occured cache is not deleted yet")
+        }
+        
+    }
 }
