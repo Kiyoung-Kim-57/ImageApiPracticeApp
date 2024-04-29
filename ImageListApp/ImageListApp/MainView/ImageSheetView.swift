@@ -28,14 +28,14 @@ struct ImageSheetView: View {
                             .frame(width: 300, height: 500)
                     } else {
                         //캐쉬가 없을때
-                        Text("Loading")
-                            .font(.system(size: 40))
-                            .background{
-                                RoundedRectangle(cornerRadius: 20)
-                                    .shadow(radius: 10)
-                                    .foregroundStyle(Color.gray)
-                                    .frame(width: 300, height: 500)
-                            }
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 20)
+                                .shadow(radius: 10)
+                                .foregroundStyle(Color.gray)
+                                .frame(width: 300, height: 500)
+                            Text("Loading")
+                                .font(.system(size: 40))
+                        }
                     }
                 }
             }
@@ -44,9 +44,19 @@ struct ImageSheetView: View {
                 .fontWeight(.bold)
                 .padding(10)
         }
+        .onAppear{
+            print("Appear!")
+        }
     }
 }
 
+extension ImageSheetView {
+    struct MyButtonStyle: ButtonStyle {
+        func makeBody(configuration: Configuration) -> some View {
+            configuration.label.foregroundStyle(Color.black)
+        }
+    }
+}
 #Preview {
     ImageSheetView(imgData: ImageModel(id: "2", altDescription: "Test Image No.2", urls: Urls(raw: "https://images.unsplash.com/photo-1701749059090-ac8afdba7b44?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", full: "", regular: "", small: "", thumb:"", smallS3: "")))
 }
