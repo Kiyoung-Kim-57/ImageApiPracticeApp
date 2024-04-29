@@ -27,6 +27,7 @@
 		6066754D2BD778600037143B /* ImageContainerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6066754C2BD7785F0037143B /* ImageContainerListView.swift */; };
 		60E68E9C2BD8FED300866D4F /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E68E9B2BD8FED300866D4F /* ImageCacheManager.swift */; };
 		60E68E9F2BDA3A0800866D4F /* ImageSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E68E9E2BDA3A0800866D4F /* ImageSheetView.swift */; };
+		60E68EA12BDA4E8900866D4F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E68EA02BDA4E8900866D4F /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		6066754C2BD7785F0037143B /* ImageContainerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageContainerListView.swift; sourceTree = "<group>"; };
 		60E68E9B2BD8FED300866D4F /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		60E68E9E2BDA3A0800866D4F /* ImageSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSheetView.swift; sourceTree = "<group>"; };
+		60E68EA02BDA4E8900866D4F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -159,6 +161,7 @@
 			children = (
 				6066754C2BD7785F0037143B /* ImageContainerListView.swift */,
 				60E68E9E2BDA3A0800866D4F /* ImageSheetView.swift */,
+				60E68EA02BDA4E8900866D4F /* ContentView.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -248,6 +251,7 @@
 				6005C3022BBD747200A9156F /* ImageListAppApp.swift in Sources */,
 				6005C32A2BC3C3D800A9156F /* ApiModel.swift in Sources */,
 				6005C32D2BC3DEE100A9156F /* ImageService.swift in Sources */,
+				60E68EA12BDA4E8900866D4F /* ContentView.swift in Sources */,
 				6005C3322BC4410500A9156F /* ImageVIewModel.swift in Sources */,
 				6005C3352BC7C1B200A9156F /* ImageScrollView.swift in Sources */,
 				6005C32F2BC405F700A9156F /* ImageModel.swift in Sources */,

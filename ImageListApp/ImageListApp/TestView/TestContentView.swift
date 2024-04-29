@@ -16,6 +16,17 @@ struct TestContentView: View {
         NavigationStack(path: $path) {
             VStack(spacing: 20){
                 Button {
+                    ImageCacheManager.shared.deleteAllImageCache()
+                } label: {
+                    Text("Remove Image cache in Core Data")
+                        .foregroundStyle(Color.white)
+                        .padding(5)
+                        .background{
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundStyle(Color.red)
+                        }
+                }
+                Button {
                     imageViewModel.savedImageList = [UIImage?](repeating: nil, count: 10)
                 } label: {
                     Text("Remove Image data")
@@ -61,6 +72,8 @@ struct TestContentView: View {
             })
         }
         .onAppear{
+            //이미지 캐시를 앱이 시작될 때마다 리셋
+            ImageCacheManager.shared.deleteAllImageCache()
 //                imageViewModel.getImageList()
         }
     }

@@ -70,7 +70,6 @@ private struct ContainerView: View {
         }
         .onAppear {
             if let img = ImageCacheManager.shared.loadImageCache(key: imgData.id) {
-                print("cache data used")
                 image = img
             } else {
                 //ContainerView를 불러오고 바로 이미지 데이터 불러옴, Result type 반환
@@ -78,7 +77,7 @@ private struct ContainerView: View {
                     switch result {
                     case .success(let data):
                         //이미지 데이터를 불러오는데 성공하면 다운샘플링해서 섬네일 딕셔너리에 id와 함께 저장
-                        guard let thumb = imageViewModel.resize2(data: data, size: CGSize(width: 80, height: 100)) else { break }
+                        guard let thumb = imageViewModel.resizeInThumb(data: data, size: CGSize(width: 80, height: 100)) else { break }
                         //뷰모델의 딕셔너리에 저장하는 방법
                         //                    imageViewModel.savedThumbnails.updateValue(thumb, forKey: imgData.id)
                         //코어데이터를 이용한 캐시매니저 클래스를 이용하는 방법

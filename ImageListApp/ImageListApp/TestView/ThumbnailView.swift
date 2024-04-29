@@ -43,7 +43,7 @@ struct ThumbnailView: View {
                                         case .success(let data):
                                             //리사이징 후에 바로 뷰에 업데이트
 //                                            image = UIImage(data: data)!.resize2(size: CGSize(width: 250, height: 250))
-                                            image = imageViewModel.resize2(data: data, size: CGSize(width: 250, height: 250))
+                                            image = imageViewModel.resizeInThumb(data: data, size: CGSize(width: 250, height: 250))
                                             //크기가 정해진 빈 배열(nil로 채워진 배열)에 저장한 이미지를 저장하고 그 때 그 때 꺼내씀
                                             DispatchQueue.main.async {
                                                 imageViewModel.savedImageList[index] = image

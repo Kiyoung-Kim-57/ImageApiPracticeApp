@@ -14,8 +14,8 @@ struct ImageListAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-//            TestContentView()
-            ImageContainerListView()
+            TestContentView()
+//            ImageContainerListView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
 //                .environment(\.managedObjectContext, imageCacheManager.persistanceContainer.viewContext)
         }
