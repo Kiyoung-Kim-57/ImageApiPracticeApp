@@ -33,10 +33,12 @@ struct ImageModel: Codable, Identifiable {
     
     
     let id :String
+    let altDescription: String
     let urls: Urls
     
     enum CodingKeys: String, CodingKey, Hashable {
         case id
+        case altDescription = "alt_description"
         case urls
     }
 }
