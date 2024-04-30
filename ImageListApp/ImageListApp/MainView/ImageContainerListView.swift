@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ImageContainerListView: View {
     @ObservedObject var imageViewModel: ImageViewModel = ImageViewModel()
-//    @State private var isShowSheet = false
     var body: some View {
         VStack {
             //상단 라벨
@@ -35,8 +34,12 @@ struct ImageContainerListView: View {
             }
             Divider()
             //Container List
-//            ContainerListView(imageViewModel: imageViewModel, isShowSheet: $isShowSheet)
             ContainerListView(imageViewModel: imageViewModel)
+        }
+        .onAppear{
+            //시작할 때 기존 이미지 캐시들 삭제
+            ImageCacheManager.shared.deleteAllImageCache()
+            imageViewModel.getImageList()
         }
     }
 }
@@ -72,6 +75,7 @@ private struct ContainerView: View {
                         .resizable()
                         .frame(width: 80, height: 100)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .shadow(radius: 1, x:4, y:4)
                         .padding(.leading, 10)
                 } else {
                     //로딩대기 이미지
@@ -83,9 +87,16 @@ private struct ContainerView: View {
                     }
                     .padding(.leading, 10)
                 }
-                Spacer()
-                Text("\(imgData.altDescription)")
-                    .foregroundStyle(Color.black)
+                ZStack{
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(Color.white)
+                        .shadow(radius: 3, x:4, y:4)
+                    Text("\(imgData.altDescription)")
+                        .fontWeight(.light)
+                        .foregroundStyle(Color.black)
+                }
+                
+                    
                 Spacer()
             }
             .onAppear {
@@ -101,10 +112,11 @@ private struct ContainerView: View {
                             guard let thumb = imageViewModel.resizeInThumb(data: data, size: CGSize(width: 80, height: 100)) else { break }
                             //뷰모델의 딕셔너리에 저장하는 방법
                             //                    imageViewModel.savedThumbnails.updateValue(thumb, forKey: imgData.id)
-                            //코어데이터를 이용한 캐시매니저 클래스를 이용하는 방법
-                            ImageCacheManager.shared.saveImageCache(image: thumb, forkey: imgData.id)
                             //현재 컨테이너의 이미지 변수에 변환한 이미지를 할당
                             image = thumb
+                            //코어데이터를 이용한 캐시매니저 클래스를 이용하는 방법
+                            ImageCacheManager.shared.saveImageCache(image: thumb, forkey: imgData.id)
+                            
                             break
                         case .failure(_ ):
                             print("error thumbnail")
@@ -160,6 +172,6 @@ extension ContainerView {
     }
 }
 
-#Preview {
-    ImageContainerListView()
-}
+//#Preview {
+//    ImageContainerListView()
+//}

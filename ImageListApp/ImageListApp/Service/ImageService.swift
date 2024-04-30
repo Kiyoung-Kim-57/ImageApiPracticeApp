@@ -21,7 +21,9 @@ class ImageService {
         var urlComponents = apiURL
         urlComponents.path = "/photos/random"
         urlComponents.queryItems = [
-            URLQueryItem(name: "count", value: "5"),
+            //불러올 이미지의 수
+            URLQueryItem(name: "count", value: "10"),
+            //개인 api key
             URLQueryItem(name: "client_id", value: apiKey)
         ]
         guard let url = urlComponents.url else { return }

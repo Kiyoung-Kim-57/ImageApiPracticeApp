@@ -41,6 +41,7 @@ struct ImageSheetView: View {
             }
             Text("\(imgData.altDescription)")
                 .font(.system(size: 25))
+                .frame(maxWidth: 300)
                 .fontWeight(.bold)
                 .padding(10)
         }
