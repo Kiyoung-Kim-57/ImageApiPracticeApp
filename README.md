@@ -1,5 +1,7 @@
 # ImageApiPracticeApp
 이미지 리스트 성능 향상을 위한 테스트 프로젝트
+<br>
+*Unsplash api를 사용하고 api key는 "ApiList" 이름의 plist를 만들어 개인 api key를 넣어 사용
 <br><br>
 Test Cases<br>
 1. 단순 AsyncImage 사용
