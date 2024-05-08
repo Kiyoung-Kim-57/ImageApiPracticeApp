@@ -8,7 +8,10 @@
 import Foundation
 
 class ImageService {
-    var apiKey: String = ApiModel().unsplashKey
+//    var apiKey: String = ApiModel().unsplashKey
+    var apiKey: String? {
+        return Bundle.main.apiKey
+    }
     var apiURL: URLComponents {
         var urlComponenets = URLComponents()
         urlComponenets.scheme = "https"
@@ -18,6 +21,8 @@ class ImageService {
     
     func getImage(completion: @escaping (Result<[ImageModel], ImageError>) -> Void) {
 //        var url = URL(string: "https://api.unsplash.com/photos/random?client_id=\(apiKey)&count=10")
+        guard let apiKey = apiKey else { return }
+        
         var urlComponents = apiURL
         urlComponents.path = "/photos/random"
         urlComponents.queryItems = [
