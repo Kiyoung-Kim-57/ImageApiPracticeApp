@@ -9,17 +9,11 @@ import SwiftUI
 //단순하게 스크롤뷰에서 매 요소마다 원본 이미지를 불러오는 스크롤뷰, 이미지 용량이 큰 경우 메모리 사용이 크다
 struct ImageScrollView: View {
     @ObservedObject var imageViewModel: ImageViewModel
-    @State private var count = 0
-    @State var index = 0
-    @State var image: UIImage?
     @State var imageDict: [String:UIImage] = [:]
     
     var body: some View {
         ScrollView {
             VStack(spacing: 30) {
-                HStack{
-                    Text("\(count) images are loaded")
-                }
                 //Using CoreData to cache
                 imageList(list: imageViewModel.imageList)
             }
