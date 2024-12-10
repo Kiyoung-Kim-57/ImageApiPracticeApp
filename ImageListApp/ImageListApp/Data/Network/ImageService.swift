@@ -7,8 +7,7 @@
 
 import Foundation
 
-class ImageService {
-//    var apiKey: String = ApiModel().unsplashKey
+final class ImageService {
     var apiKey: String? {
         return Bundle.main.apiKey
     }
@@ -19,8 +18,7 @@ class ImageService {
         return urlComponenets
     }
     
-    func getImage(completion: @escaping (Result<[ImageModel], ImageError>) -> Void) {
-//        var url = URL(string: "https://api.unsplash.com/photos/random?client_id=\(apiKey)&count=10")
+    func getImage(completion: @escaping (Result<[ImageDTO], ImageError>) -> Void) {
         guard let apiKey = apiKey else { return }
         
         var urlComponents = apiURL
@@ -36,7 +34,7 @@ class ImageService {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard let data = data, error == nil else { return completion(.failure(.requestError))}
             
-            let imageResponse = try? JSONDecoder().decode([ImageModel].self, from: data)
+            let imageResponse = try? JSONDecoder().decode([ImageDTO].self, from: data)
             
             if let imageResponse = imageResponse {
                 completion(.success(imageResponse))
@@ -45,8 +43,6 @@ class ImageService {
             }
         }.resume()
     }
-    
-    
 }
 
 enum ImageError:Error {

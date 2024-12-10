@@ -8,50 +8,32 @@
 import SwiftUI
 import CoreData
 
-
 struct TestContentView: View {
-    @ObservedObject var imageViewModel: ImageViewModel = ImageViewModel()
+    @StateObject var imageViewModel: ImageViewModel = ImageViewModel()
     @State private var path: [ViewType] = []
+    
     var body: some View {
         NavigationStack(path: $path) {
             VStack(spacing: 20){
                 Button {
                     ImageCacheManager.shared.deleteAllImageCache()
                 } label: {
-                    Text("Remove Image cache in Core Data")
-                        .foregroundStyle(Color.white)
-                        .padding(5)
-                        .background{
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(Color.red)
-                        }
+                    deleteCacheButton
                 }
+                
                 Button {
                     imageViewModel.savedImageList = [UIImage?](repeating: nil, count: 10)
                 } label: {
-                    Text("Remove Image data")
-                        .foregroundStyle(Color.white)
-                        .padding(5)
-                        .background{
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundStyle(Color.red)
-                        }
+                    deleteLoadedImageButton
                 }
+                
                 ForEach(ViewType.allCases, id: \.self) { type in
-                    
                     Button {
                         path.append(type)
                     } label: {
-                        Text("\(type.rawValue) View")
-                            .foregroundStyle(Color.white)
-                            .padding(10)
-                            .background{
-                                RoundedRectangle(cornerRadius: 10)
-                                    .frame(width: 200, height: 50)
-                            }
+                        navigateButton(to: type)
                     }
                 }
-                
             }
             .navigationDestination(for: ViewType.self, destination: { type in
                 switch type {
@@ -77,8 +59,43 @@ struct TestContentView: View {
         .onAppear{
             //이미지 캐시를 앱이 시작될 때마다 리셋
             ImageCacheManager.shared.deleteAllImageCache()
-//                imageViewModel.getImageList()
+            imageViewModel.getImageList()
         }
+    }
+}
+
+// MARK: View Components
+extension TestContentView {
+    @ViewBuilder
+    private var deleteCacheButton: some View {
+        Text("Remove Image cache in Core Data")
+            .foregroundStyle(Color.white)
+            .padding(5)
+            .background{
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(Color.red)
+            }
+    }
+    
+    @ViewBuilder
+    private var deleteLoadedImageButton: some View {
+        Text("Remove Image data")
+            .foregroundStyle(Color.white)
+            .padding(5)
+            .background{
+                RoundedRectangle(cornerRadius: 10)
+                    .foregroundStyle(Color.red)
+            }
+    }
+    
+    private func navigateButton(to type: ViewType) -> some View {
+        Text("\(type.rawValue) View")
+            .foregroundStyle(Color.white)
+            .padding(10)
+            .background{
+                RoundedRectangle(cornerRadius: 10)
+                    .frame(width: 200, height: 50)
+            }
     }
 }
 
@@ -88,8 +105,4 @@ private enum ViewType:String, CaseIterable{
     case second = "Resized Image"
     case third = "Resizing In\n Background"
     case fourth = "Thumbnail Resizing"
-}
-
-#Preview {
-    TestContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 //이미지 데이터를 디코딩하고 리사이징한 후에 표시하는 스크롤뷰 -> 리사이징이 cpu 자원을 많이 사용, 완료 후에는 메모리 용량을 덜 사용
 struct ResizedImageView: View {
-    @StateObject var imageViewModel: ImageViewModel
+    @ObservedObject var imageViewModel: ImageViewModel
     @State private var count = 0
     @State var timerCount: CGFloat = 0
     @State var index = 0
@@ -36,7 +36,7 @@ struct ResizedImageView: View {
                             .frame(width: 250, height: 250)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .onAppear{
-                                if let imgUrl = URL(string: imageViewModel.imageList[num].urls.raw) {
+                                if let imgUrl = URL(string: imageViewModel.imageList[num].imageSizeURL.raw) {
                                     imageViewModel.loadImage(from: imgUrl) { result in
                                         
                                         switch result {

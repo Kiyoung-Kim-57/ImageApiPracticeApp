@@ -8,7 +8,7 @@
 import SwiftUI
 //리스트의 이미지들 리사이징을 백그라운드에서 비동기로 진행, cpu,메모리 효율이 매우 좋지 않다.
 struct ResizeInBgView: View {
-    @StateObject var imageViewModel: ImageViewModel
+    @ObservedObject var imageViewModel: ImageViewModel
     @State private var count = 0
     @State var index = 0
     @State var image: UIImage?
@@ -20,7 +20,6 @@ struct ResizeInBgView: View {
                 HStack{
                     Text("\(count) images are loaded")
                 }
-                
                 
                 ForEach(0..<imageViewModel.imageList.count, id: \.self) { num  in
                     if let img = imageViewModel.savedImageList[num] {
@@ -38,15 +37,12 @@ struct ResizeInBgView: View {
                             .frame(width: 250, height: 250)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
                             .onAppear{
-                                if let imgUrl = URL(string: imageViewModel.imageList[num].urls.raw) {
+                                if let imgUrl = URL(string: imageViewModel.imageList[num].imageSizeURL.raw) {
                                     imageViewModel.loadImage(from: imgUrl) { result in
-                                        
                                             switch result {
                                             case .success(let data):
                                                 Task {
-                                                    //이미지 리사이징을 다른 스레드에서 진행
-                                                    //CPU, 메모리 자원을 엄청 먹음
-                                                    image = try await imageViewModel.resizeImage(image: UIImage(data: data)!)
+                                                    image = try await ImageManager.resizeImage(image: UIImage(data: data)!)
                                                     
                                                     //크기가 정해진 빈 배열(nil로 채워진 배열)에 저장한 이미지를 저장하고 그 때 그 때 꺼내씀
                                                     //비동기로 저장하다보니 매번 저장되는 순서가 뒤죽박죽
@@ -64,13 +60,11 @@ struct ResizeInBgView: View {
                                             case .failure(_ ):
                                                 break
                                             }
-                                        
                                     }
                                 }
                             }
                     }
                 }
-                
             }
         }
         
