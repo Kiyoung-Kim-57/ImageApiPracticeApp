@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ImageContainerListView: View {
-    @ObservedObject var imageViewModel: ImageViewModel = ImageViewModel()
+    @StateObject var imageViewModel: ImageViewModel = ImageViewModel()
     
     var body: some View {
         VStack {
@@ -63,9 +63,16 @@ private struct ContainerListView: View {
 
 private struct ContainerView: View {
     @ObservedObject var imageViewModel: ImageViewModel
-    @State var isShowSheet = false
-    @State var imgData: ImageDTO
-    @State var image: UIImage?
+    @State private var isShowSheet = false
+    @State private var imgData: ImageDTO
+    @State private var image: UIImage?
+    
+    init(imageViewModel: ImageViewModel, imgData: ImageDTO, image: UIImage? = nil) {
+        self.imageViewModel = imageViewModel
+        self.imgData = imgData
+        self.image = image
+    }
+    
     var body: some View {
         Button {
             isShowSheet.toggle()
@@ -106,21 +113,24 @@ private struct ContainerView: View {
                 } else {
                     //ContainerView를 불러오고 바로 이미지 데이터 불러옴, Result type 반환
                     guard let imgUrl = URL(string: imgData.imageSizeURL.raw) else { return }
+                    
                     imageViewModel.loadImage(from: imgUrl ) { result in
                         switch result {
                         case .success(let data):
-                            //이미지 데이터를 불러오는데 성공하면 다운샘플링해서 섬네일 딕셔너리에 id와 함께 저장
-                            guard let thumb = ImageManager.downSampleImage(data: data, size: CGSize(width: 80, height: 100)) else { break }
-                            //뷰모델의 딕셔너리에 저장하는 방법
-                            //                    imageViewModel.savedThumbnails.updateValue(thumb, forKey: imgData.id)
-                            //현재 컨테이너의 이미지 변수에 변환한 이미지를 할당
+                            guard let thumb = ImageManager.downSampleImage(
+                                data: data,
+                                size: CGSize(
+                                    width: 80,
+                                    height: 100
+                                )
+                            ) else { break }
                             image = thumb
-                            //코어데이터를 이용한 캐시매니저 클래스를 이용하는 방법
+                            
                             ImageCacheManager.shared.saveImageCache(image: thumb, forkey: imgData.id)
                             
                             break
                         case .failure(_ ):
-                            print("error thumbnail")
+                            debugPrint("error thumbnail")
                             break
                         }
                     }
@@ -129,7 +139,7 @@ private struct ContainerView: View {
             .sheet(isPresented: $isShowSheet, content: {
                 ImageSheetView(imgData: imgData)
                     .onDisappear {
-                        didDismiss(imgData)
+                        cacheDataOnDismiss(imgData)
                     }
             })
             
@@ -140,7 +150,7 @@ private struct ContainerView: View {
 
 extension ContainerView {
     //시트가 내려갈때 섬네일 캐시를 다시 저장하는 함수
-    func didDismiss(_ imgData: ImageDTO) {
+    func cacheDataOnDismiss(_ imgData: ImageDTO) {
         guard ImageCacheManager.shared.loadImageCache(key: imgData.id) == nil,
               let imgUrl = URL(string: imgData.imageSizeURL.raw)
         else { return }
