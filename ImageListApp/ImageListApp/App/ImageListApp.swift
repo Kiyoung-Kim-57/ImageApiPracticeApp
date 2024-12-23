@@ -8,12 +8,12 @@
 import SwiftUI
 
 @main
-struct ImageListAppApp: App {
+struct ImageListApp: App {
     let imageCacheManager = ImageCacheManager.shared
 
     var body: some Scene {
         WindowGroup {
-            TestContentView()
+            ImageContainerListView()
                 .environment(\.managedObjectContext, imageCacheManager.persistanceContainer.viewContext)
         }
     }
