@@ -36,24 +36,7 @@ struct TestContentView: View {
                 }
             }
             .navigationDestination(for: ViewType.self, destination: { type in
-                switch type {
-                case ViewType.original:
-                    //가장 느린 UI 업데이트 속도
-                    AsyncImageView(imageViewModel: imageViewModel)
-                case ViewType.first:
-                    //두번째 접근부터 다운샘플링된 저용량 이미지 사용
-                    //ViewModel에 캐쉬 대용의 배열을 생성해서 사용
-                    ImageScrollView(imageViewModel: imageViewModel)
-                case ViewType.second:
-                    //이미지 데이터 이미지로 변환하고 리사이징한 후에 리스트
-                    ResizedImageView(imageViewModel: imageViewModel)
-                case ViewType.third:
-                    //리사이징 작업을 따로 백그라운드로 보내서 작업
-                    ResizeInBgView(imageViewModel: imageViewModel)
-                case ViewType.fourth:
-                    //이미지를 섬네일 사이즈로 다운샘플링해서 사용
-                    ThumbnailView(imageViewModel: imageViewModel)
-                }
+                destinationView(type: type)
             })
         }
         .onAppear{
@@ -66,7 +49,6 @@ struct TestContentView: View {
 
 // MARK: View Components
 extension TestContentView {
-    @ViewBuilder
     private var deleteCacheButton: some View {
         Text("Remove Image cache in Core Data")
             .foregroundStyle(Color.white)
@@ -77,7 +59,6 @@ extension TestContentView {
             }
     }
     
-    @ViewBuilder
     private var deleteLoadedImageButton: some View {
         Text("Remove Image data")
             .foregroundStyle(Color.white)
@@ -96,6 +77,28 @@ extension TestContentView {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 200, height: 50)
             }
+    }
+    
+    @ViewBuilder
+    private func destinationView(type: ViewType) -> some View {
+        switch type {
+        case ViewType.original:
+            //가장 느린 UI 업데이트 속도
+            AsyncImageView(imageViewModel: imageViewModel)
+        case ViewType.first:
+            //두번째 접근부터 다운샘플링된 저용량 이미지 사용
+            //ViewModel에 캐쉬 대용의 배열을 생성해서 사용
+            ImageScrollView(imageViewModel: imageViewModel)
+        case ViewType.second:
+            //이미지 데이터 이미지로 변환하고 리사이징한 후에 리스트
+            ResizedImageView(imageViewModel: imageViewModel)
+        case ViewType.third:
+            //리사이징 작업을 따로 백그라운드로 보내서 작업
+            ResizeInBgView(imageViewModel: imageViewModel)
+        case ViewType.fourth:
+            //이미지를 섬네일 사이즈로 다운샘플링해서 사용
+            ThumbnailView(imageViewModel: imageViewModel)
+        }
     }
 }
 
