@@ -52,7 +52,10 @@ extension ImageScrollView {
         }
     }
     
-    private func thumbnailImageView(image: UIImage, isLoadingTextHidden: Bool = true) -> some View {
+    private func thumbnailImageView(
+        image: UIImage,
+        isLoadingTextHidden: Bool = true
+    ) -> some View {
         Image(uiImage: image)
             .resizable()
             .scaledToFit()
