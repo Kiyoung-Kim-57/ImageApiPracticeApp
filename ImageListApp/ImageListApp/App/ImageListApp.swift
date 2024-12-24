@@ -13,7 +13,7 @@ struct ImageListApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ImageContainerListView()
+            StartView()
                 .environment(\.managedObjectContext, imageCacheManager.persistanceContainer.viewContext)
         }
     }

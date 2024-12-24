@@ -9,15 +9,17 @@ import SwiftUI
 
 struct StartView: View {
     var body: some View {
-        VStack {
-            testViewButton
-            mainViewButton
+        NavigationStack {
+            VStack {
+                testViewButton
+                mainViewButton
+            }
         }
     }
     
     private var testViewButton: some View {
-        Button {
-            // TODO: Push TestView
+        NavigationLink {
+            TestContentView()
         } label: {
             Text("Test View")
                 .frame(maxWidth: .infinity, minHeight: 50)
@@ -30,8 +32,8 @@ struct StartView: View {
     }
     
     private var mainViewButton: some View {
-        Button {
-            // TODO: Push MainView
+        NavigationLink {
+            ImageContainerListView()
         } label: {
             Text("Main View")
                 .frame(maxWidth: .infinity, minHeight: 50)
