@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ImageViewModel: ObservableObject {
+final class ImageViewModel: ObservableObject {
     @Published var imageList: [ImageDTO] = []
     @Published var savedImageList: [UIImage?] = [UIImage?](repeating: nil, count: 10)
     @Published var savedThumbnails: [String : UIImage] = [:]
