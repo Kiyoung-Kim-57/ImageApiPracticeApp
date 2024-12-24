@@ -13,7 +13,7 @@ struct ImageScrollView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 30) {
+            VStack(spacing: Constants.vStackSpacing) {
                 //Using CoreData to cache
                 imageList(list: imageViewModel.imageList)
             }
@@ -24,14 +24,19 @@ struct ImageScrollView: View {
 extension ImageScrollView {
     private func imageList(list: [ImageDTO]) -> some View {
         ForEach(list) { model in
-            if let image = imageDict[model.id] {
-                thumbnailImageView(image: image)
-                    .onAppear{
-                        debugPrint("original appeared \(model.id)")
-                    }
-            } else {
-                waitingFetchingView(model: model)
-            }
+            ImageCellView(model: model)
+        }
+    }
+    
+    @ViewBuilder
+    private func ImageCellView(model: ImageDTO) -> some View {
+        if let image = imageDict[model.id] {
+            thumbnailImageView(image: image)
+                .onAppear{
+                    debugPrint("original appeared \(model.id)")
+                }
+        } else {
+            waitingFetchingView(model: model)
         }
     }
     
@@ -59,13 +64,18 @@ extension ImageScrollView {
         Image(uiImage: image)
             .resizable()
             .scaledToFit()
-            .frame(width: 250)
+            .frame(width: Constants.imageFrameSize)
             .overlay {
                 Text("Loading")
-                    .frame(width: 250, height: 250)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                    .frame(
+                        width: Constants.imageFrameSize,
+                        height: Constants.imageFrameSize
+                    )
                     .opacity(isLoadingTextHidden ? 0 : 1)
             }
+            .clipShape(
+                RoundedRectangle(cornerRadius: Constants.imageCornerRadius)
+            )
     }
     
     private func fetchImage(url: URL, id: String, isCaching: Bool = false) {
@@ -83,12 +93,24 @@ extension ImageScrollView {
             }
         }
     }
+    
     private func cacheImage(data: Data, id: String) {
         guard let thumbImg = ImageManager.downSampleImage(
             data: data,
-            size: CGSize(width: 100, height: 100)
+            size: CGSize(
+                width: Constants.imageFrameSize,
+                height: Constants.imageFrameSize
+            )
         ) else { return }
         
         ImageCacheManager.shared.saveImageCache(image: thumbImg, forkey: id)
+    }
+}
+
+extension ImageScrollView {
+    private enum Constants {
+        static let vStackSpacing: CGFloat = 30
+        static let imageFrameSize: CGFloat = 250
+        static let imageCornerRadius: CGFloat = 20
     }
 }
