@@ -15,25 +15,9 @@ struct TestContentView: View {
     var body: some View {
         NavigationStack(path: $path) {
             VStack(spacing: 20){
-                Button {
-                    ImageCacheManager.shared.deleteAllImageCache()
-                } label: {
-                    deleteCacheButton
-                }
-                
-                Button {
-                    imageViewModel.savedImageList = [UIImage?](repeating: nil, count: 10)
-                } label: {
-                    deleteLoadedImageButton
-                }
-                
-                ForEach(ViewType.allCases, id: \.self) { type in
-                    Button {
-                        path.append(type)
-                    } label: {
-                        navigateButton(to: type)
-                    }
-                }
+                deleteCacheButton
+                deleteLoadedImageButton
+                testViewList
             }
             .navigationDestination(for: ViewType.self, destination: { type in
                 destinationView(type: type)
@@ -50,23 +34,41 @@ struct TestContentView: View {
 // MARK: View Components
 extension TestContentView {
     private var deleteCacheButton: some View {
-        Text("Remove Image cache in Core Data")
-            .foregroundStyle(Color.white)
-            .padding(5)
-            .background{
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(Color.red)
-            }
+        Button {
+            ImageCacheManager.shared.deleteAllImageCache()
+        } label: {
+            Text("Remove Image cache in Core Data")
+                .foregroundStyle(Color.white)
+                .padding(5)
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(Color.red)
+                }
+        }
     }
     
     private var deleteLoadedImageButton: some View {
-        Text("Remove Image data")
-            .foregroundStyle(Color.white)
-            .padding(5)
-            .background{
-                RoundedRectangle(cornerRadius: 10)
-                    .foregroundStyle(Color.red)
+        Button {
+            imageViewModel.savedImageList = [UIImage?](repeating: nil, count: 10)
+        } label: {
+            Text("Remove Image data")
+                .foregroundStyle(Color.white)
+                .padding(5)
+                .background{
+                    RoundedRectangle(cornerRadius: 10)
+                        .foregroundStyle(Color.red)
+                }
+        }
+    }
+    
+    private var testViewList: some View {
+        ForEach(ViewType.allCases, id: \.self) { type in
+            Button {
+                path.append(type)
+            } label: {
+                navigateButton(to: type)
             }
+        }
     }
     
     private func navigateButton(to type: ViewType) -> some View {
