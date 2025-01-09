@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ImageSheetView: View {
-    @State var imgData: ImageModel
+    @State var imgData: ImageDTO
     var body: some View {
         VStack {
-            if let url = URL(string: imgData.urls.raw) {
+            if let url = URL(string: imgData.imageSizeURL.raw) {
                 AsyncImage(url: url) { image in
                     image
                         .resizable()
@@ -57,7 +57,4 @@ extension ImageSheetView {
             configuration.label.foregroundStyle(Color.black)
         }
     }
-}
-#Preview {
-    ImageSheetView(imgData: ImageModel(id: "2", altDescription: "Test Image No.2", urls: Urls(raw: "https://images.unsplash.com/photo-1701749059090-ac8afdba7b44?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", full: "", regular: "", small: "", thumb:"", smallS3: "")))
 }
