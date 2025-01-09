@@ -7,7 +7,7 @@
 
 import SwiftUI
 //리스트의 이미지들 리사이징을 백그라운드에서 비동기로 진행, cpu,메모리 효율이 매우 좋지 않다.
-struct ResizeInBgView: View {
+struct ConcurrentResizeView: View {
     @ObservedObject var imageViewModel: ImageViewModel
     @State private var count = 0
     @State var index = 0
@@ -72,5 +72,5 @@ struct ResizeInBgView: View {
 }
 
 #Preview {
-    ResizeInBgView(imageViewModel: ImageViewModel())
+    ConcurrentResizeView(imageViewModel: ImageViewModel())
 }

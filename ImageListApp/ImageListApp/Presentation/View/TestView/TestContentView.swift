@@ -96,7 +96,7 @@ extension TestContentView {
             ResizedImageView(imageViewModel: imageViewModel)
         case ViewType.third:
             //리사이징 작업을 따로 백그라운드로 보내서 작업
-            ResizeInBgView(imageViewModel: imageViewModel)
+            ConcurrentResizeView(imageViewModel: imageViewModel)
         case ViewType.fourth:
             //이미지를 섬네일 사이즈로 다운샘플링해서 사용
             ThumbnailView(imageViewModel: imageViewModel)
